@@ -1,3 +1,13 @@
+*{
+  box-sizing: border-box;
+
+  
+  font: 1rem "Lato", sans-serif;
+  margin:0;
+  padding:0
+}
+
+
 .App {
   text-align: center;
 }
@@ -35,4 +45,112 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.scroller {
+  display: flex;
+  width: 1000px;
+  height: 400px;
+  overflow: scroll;
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+border: 1px solid red;
+
+}
+
+
+.slider-wrapper{ }
+
+.slider-container {
+ 
+  box-sizing: border-box;
+}
+
+.slider-list{
+  display: inline-flex;
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-right: calc(100% - 400px); /* fix width = 400 */ 
+}
+
+.slider-item {
+ 
+  width: 400px; /* fix width = 400 */ 
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-left: 2px solid salmon;
+  border-bottom: 2px solid salmon;
+}   
+
+.slider-item:not(:last-of-type) {
+  margin-right: 12px; /* space */ 
+}
+
+
+
+.sliderVertical-list{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  list-style: none;
+  height: 70vh;
+ 
+  padding: 0;
+  margin: 0;
+  /* padding-right: calc(100% - 400px); /* fix width = 400 */  
+ 
+}
+
+
+.sliderVertical-listFlex{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  list-style: none;
+
+ 
+  padding: 0;
+  margin: 0;
+  /* padding-right: calc(100% - 400px); /* fix width = 400 */  
+ 
+}
+
+.sliderVertical-listXL{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  list-style: none;
+  height: 80vh;
+ 
+  padding: 0;
+  margin: 0;
+  /* padding-right: calc(100% - 400px); /* fix width = 400 */  
+ 
+}
+
+
+
+.sliderVertical-item {
+ 
+  width: 400px; /* fix width = 400 */ 
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-left: 2px solid salmon;
+  border-bottom: 2px solid salmon;
+  border: 1px solid blue
+}   
+
+.sliderVertical-item:not(:last-of-type) {
+ 
 }
