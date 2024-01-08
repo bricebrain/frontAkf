@@ -17,7 +17,7 @@ function Footer() {
         height: 70,
 
         display: "flex",
-
+        flex: "0 0 auto",
         border: "1px solid white",
         // borderRadius: "30px 30px 0px 0px",
         boxShadow: "#785b5b 0px -2px 5px",

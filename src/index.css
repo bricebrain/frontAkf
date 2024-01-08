@@ -9,12 +9,49 @@
 body {
   margin: 0;
   font-family: 'Lato', sans-serif;
-  margin:0;
+
   padding:0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 code {
   font-family:'Lato'
+}
+
+* Style du conteneur principal */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 100% de la hauteur de la vue (viewport) */
+}
+
+/* Style du header et du footer */
+.header, .footer {
+  flex: 0 0 auto; /* Ne pas étirer, rester à leur hauteur naturelle */
+  background-color: #333; /* Ajoutez vos styles personnalisés ici */
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Style du contenu (partie centrale) */
+.content {
+  flex: 1; /* Étirer pour utiliser tout l'espace disponible */
+  overflow-y: auto; /* Activer le défilement uniquement si nécessaire */
+  padding: 20px; /* Ajoutez un espace autour du contenu si nécessaire */
+}
+
+/* Style de la barre de défilement pour la partie centrale */
+.content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+.content::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
