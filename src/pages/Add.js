@@ -66,7 +66,7 @@ const Add = () => {
       });
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/uploadfilesMulti/",
+        "https://backendakf-production.up.railway.app/uploadfilesMulti/",
         formData,
         {
           headers: {
@@ -80,7 +80,7 @@ const Add = () => {
       newInfo["photos"] = response.data.urls;
 
       const responseDB = await axios.post(
-        "http://127.0.0.1:8000/addArticles/",
+        "https://backendakf-production.up.railway.app/addArticles/",
         newInfo
       );
 

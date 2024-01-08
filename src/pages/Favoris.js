@@ -96,7 +96,9 @@ const Products = () => {
   const getArticles = async () => {
     let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
     try {
-      const { data } = await axios.get("http://127.0.0.1:8000/articles/");
+      const { data } = await axios.get(
+        "https://backendakf-production.up.railway.app/articles/"
+      );
 
       if (tabFavoris) {
         const productsFiltered = data.filter((item) =>

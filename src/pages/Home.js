@@ -25,7 +25,9 @@ function Home() {
 
   const getArticles = async () => {
     try {
-      const { data } = await axios.get("http://127.0.0.1:8000/articles/");
+      const { data } = await axios.get(
+        "https://backendakf-production.up.railway.app/articles/"
+      );
       console.log(data);
 
       const productsFiltered = data.filter(

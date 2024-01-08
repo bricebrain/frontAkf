@@ -96,7 +96,7 @@ function Form() {
 
     try {
       const { data } = await axios.post(
-        "http://127.0.0.1:8000/addCommande/",
+        "https://backendakf-production.up.railway.app/addCommande/",
         newCommande
       );
 

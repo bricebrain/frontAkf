@@ -126,7 +126,7 @@ function Edit() {
         });
 
         response = await axios.post(
-          "http://127.0.0.1:8000/uploadfilesMulti/",
+          "https://backendakf-production.up.railway.app/uploadfilesMulti/",
           formData,
           {
             headers: {
@@ -140,7 +140,7 @@ function Edit() {
       }
 
       const responseDB = await axios.put(
-        `http://127.0.0.1:8000/updateArticle/${info.id}`,
+        `https://backendakf-production.up.railway.app/updateArticle/${info.id}`,
         newInfo
       );
     } catch (error) {
@@ -153,7 +153,7 @@ function Edit() {
   const Remove = async (e) => {
     try {
       const responseDB = await axios.put(
-        `http://127.0.0.1:8000/delete/${info.id}`,
+        `https://backendakf-production.up.railway.app/delete/${info.id}`,
         { status: "DEACTIVATED" }
       );
     } catch (error) {

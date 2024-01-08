@@ -21,7 +21,9 @@ function History() {
 
   const getCommandes = async () => {
     try {
-      const { data } = await axios.get("http://127.0.0.1:8000/commandes/");
+      const { data } = await axios.get(
+        "https://backendakf-production.up.railway.app/commandes/"
+      );
 
       setCommandesDefault(data);
       setCommandes(data);
@@ -40,7 +42,7 @@ function History() {
   const updateCommande = async (id, status) => {
     try {
       await axios.put(
-        `http://127.0.0.1:8000/updateCommande/${id}?status=${status}`
+        `https://backendakf-production.up.railway.app/updateCommande/${id}?status=${status}`
       );
     } catch (error) {
       console.log(error);
