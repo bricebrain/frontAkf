@@ -95,7 +95,7 @@ const Products = () => {
   const getArticles = async () => {
     try {
       const { data } = await axios.get(
-        "https://backendakf-production.up.railway.app/articles/"
+        "https://backend-akf.onrender.com/articles/"
       );
 
       const productsFiltered = data.filter(

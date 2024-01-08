@@ -96,7 +96,7 @@ function Form() {
 
     try {
       const { data } = await axios.post(
-        "https://backendakf-production.up.railway.app/addCommande/",
+        "https://backend-akf.onrender.com/addCommande/",
         newCommande
       );
 

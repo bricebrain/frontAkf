@@ -87,7 +87,7 @@ function Article() {
       });
 
       const response = await axios.post(
-        "https://backendakf-production.up.railway.app/uploadfilesMulti/",
+        "https://backend-akf.onrender.com/uploadfilesMulti/",
         formData,
         {
           headers: {
@@ -101,7 +101,7 @@ function Article() {
       newInfo["picture"] = response.data.urls;
 
       const responseDB = await axios.post(
-        "https://backendakf-production.up.railway.app/addArticles/",
+        "https://backend-akf.onrender.com/addArticles/",
         newInfo
       );
 

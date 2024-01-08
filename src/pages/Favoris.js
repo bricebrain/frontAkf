@@ -97,7 +97,7 @@ const Products = () => {
     let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
     try {
       const { data } = await axios.get(
-        "https://backendakf-production.up.railway.app/articles/"
+        "https://backend-akf.onrender.com/articles/"
       );
 
       if (tabFavoris) {

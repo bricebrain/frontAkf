@@ -22,7 +22,7 @@ function History() {
   const getCommandes = async () => {
     try {
       const { data } = await axios.get(
-        "https://backendakf-production.up.railway.app/commandes/"
+        "https://backend-akf.onrender.com/commandes/"
       );
 
       setCommandesDefault(data);
@@ -42,7 +42,7 @@ function History() {
   const updateCommande = async (id, status) => {
     try {
       await axios.put(
-        `https://backendakf-production.up.railway.app/updateCommande/${id}?status=${status}`
+        `https://backend-akf.onrender.com/updateCommande/${id}?status=${status}`
       );
     } catch (error) {
       console.log(error);

@@ -126,7 +126,7 @@ function Edit() {
         });
 
         response = await axios.post(
-          "https://backendakf-production.up.railway.app/uploadfilesMulti/",
+          "https://backend-akf.onrender.com/uploadfilesMulti/",
           formData,
           {
             headers: {
@@ -140,7 +140,7 @@ function Edit() {
       }
 
       const responseDB = await axios.put(
-        `https://backendakf-production.up.railway.app/updateArticle/${info.id}`,
+        `https://backend-akf.onrender.com/updateArticle/${info.id}`,
         newInfo
       );
     } catch (error) {
@@ -153,7 +153,7 @@ function Edit() {
   const Remove = async (e) => {
     try {
       const responseDB = await axios.put(
-        `https://backendakf-production.up.railway.app/delete/${info.id}`,
+        `https://backend-akf.onrender.com/delete/${info.id}`,
         { status: "DEACTIVATED" }
       );
     } catch (error) {
