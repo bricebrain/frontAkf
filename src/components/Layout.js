@@ -23,7 +23,7 @@ const Layout = ({
     <div
       style={{
         width: "100vw",
-        height: "100vh",
+        height: "100svh",
         backgroundColor: "#F9F9F9",
         display: "flex",
         flexDirection: "column",

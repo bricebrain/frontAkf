@@ -24,7 +24,7 @@ code {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 100% de la hauteur de la vue (viewport) */
+  height: 100svh; /* 100% de la hauteur de la vue (viewport) */
 }
 
 /* Style du header et du footer */
