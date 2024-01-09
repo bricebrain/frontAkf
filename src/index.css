@@ -20,7 +20,7 @@ code {
   font-family:'Lato'
 }
 
-* Style du conteneur principal */
+
 
 .layout {
   display: flex;
@@ -28,7 +28,7 @@ code {
   background-color: #F9F9F9;
   flex-direction: column;
   height: 100vh; /* 100% de la hauteur de la vue (viewport) */
-  height: -webkit-fill-avalaibe;
+  height: -webkit-fill-avalaibe
 
 
 
