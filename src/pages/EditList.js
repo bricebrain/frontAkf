@@ -1,18 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
-import Menu from "../assets/menu.svg";
-import Search from "../assets/search.svg";
-import Cart from "../assets/shopping_bag.svg";
-import Person from "../assets/person.svg";
-import Favorite from "../assets/favorite.svg";
-import Location from "../assets/location.svg";
+
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
 import SliderVertical from "../components/SliderVertical";
-import Title from "../components/Title";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { allArticles } from "../api/articles";
 
 function EditList() {
   let { state } = useLocation();
@@ -97,9 +90,7 @@ function EditList() {
 
   const getArticles = async () => {
     try {
-      const { data } = await axios.get(
-        "https://backend-akf.onrender.com/articles/"
-      );
+      const { data } = await allArticles();
 
       setProducts(data);
     } catch (error) {}
@@ -135,10 +126,6 @@ function EditList() {
         />
       </div>
 
-      {/* <Title height={50} name={"Categories"} />
-      <Categories /> */}
-
-      {/* <Title height={50} name={"Bestsellers"} /> */}
       <SliderVertical>
         <ul className="sliderVertical-list">
           {products && products.map((item) => <Item data={item} />)}

@@ -1,41 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
-import { useSelector, useDispatch } from "react-redux";
-import emailjs from "emailjs-com";
+import { useDispatch } from "react-redux";
 import SliderVertical from "../components/SliderVertical";
-import Title from "../components/Title";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ReactComponent as EmptyCart } from "../assets/emptyCart.svg";
-import axios from "axios";
-import {
-  incrementQuantity,
-  decrementQuantity,
-  removeItem,
-  addItem,
-  resetCart,
-} from "../redux/Cart";
-import Layout from "../components/Layout";
 
-// const sendEmail = () => {
-//   emailjs.send(
-//     'service_ylvxaws',
-//     'template_gr2epar', // Utilisez l'ID du modèle que vous avez créé sur EmailJS
-//     {
-//       to_email: 'akfrehoboth@gmail.com',
-//       message: text,
-//       from_name:name,
-//       email_contact:email
-//     },
-//     XfH5RhNQyQgdapFUp'
-//   )
-//   .then((response) => {
-//     console.log('Email sent:', response);
-//     setDone(true)
-//   })
-//   .catch((error) => {
-//     console.error('Error sending email:', error);
-//   });()
+import Layout from "../components/Layout";
 
 function Details() {
   let { state } = useLocation();
@@ -104,52 +74,7 @@ function Details() {
             flexDirection: "column",
             alignItems: "center",
           }}
-        >
-          {/* <button
-            onClick={() => dispatch(incrementQuantity(data))}
-            style={{
-              width: 30,
-              height: 30,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            +
-          </button> */}
-          {/* <div
-            style={{
-              width: 30,
-              height: 30,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            {data.quantity}
-          </div> */}
-          {/* <button
-            onClick={() => {
-              if (data.quantity === 1) {
-                dispatch(removeItem(data));
-              } else {
-                dispatch(decrementQuantity(data));
-              }
-            }}
-            style={{
-              width: 30,
-              height: 30,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            -
-          </button> */}
-        </div>
+        ></div>
       </div>
     );
   };
@@ -194,10 +119,6 @@ function Details() {
           {stateCart && stateCart.map((item) => <Item data={item} />)}
         </ul>
       </SliderVertical>
-
-      {/* <Link to="/Form" state={{ totalCommande }}>
-        <button onClick={() => console.log(stateCart)}>Validation</button>
-      </Link> */}
     </Layout>
   );
 }

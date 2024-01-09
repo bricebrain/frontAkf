@@ -2,22 +2,13 @@
 import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
 import emailjs from "emailjs-com";
-import SliderVertical from "../components/SliderVertical";
-import Title from "../components/Title";
 import { Link, useLocation, redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ReactComponent as CheckCircle } from "../assets/check_circle.svg";
 
-import axios from "axios";
-import {
-  incrementQuantity,
-  decrementQuantity,
-  removeItem,
-  addItem,
-  resetCart,
-} from "../redux/Cart";
+import { resetCart } from "../redux/Cart";
 import Layout from "../components/Layout";
 import Validation from "../components/Validation";
+import { addCommande } from "../api/commandes";
 
 function Form() {
   let { state } = useLocation();
@@ -95,10 +86,7 @@ function Form() {
     localStorage.setItem("akfRehobothContact", JSON.stringify(contact));
 
     try {
-      const { data } = await axios.post(
-        "https://backend-akf.onrender.com/addCommande/",
-        newCommande
-      );
+      const { data } = await addCommande(newCommande);
 
       notifications({
         total: `${data.total.toLocaleString("fr-FR")} FCFA`,

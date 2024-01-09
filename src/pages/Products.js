@@ -4,10 +4,10 @@ import SliderVertical from "../components/SliderVertical";
 
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import Layout from "../components/Layout";
 import Favorite from "../components/Favorite";
+import { allArticles } from "../api/articles";
 
 const Products = () => {
   let { state } = useLocation();
@@ -94,9 +94,7 @@ const Products = () => {
 
   const getArticles = async () => {
     try {
-      const { data } = await axios.get(
-        "https://backend-akf.onrender.com/articles/"
-      );
+      const { data } = await allArticles();
 
       const productsFiltered = data.filter(
         (item) => item.category === state.item.type

@@ -1,19 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
-import {
-  incrementQuantity,
-  decrementQuantity,
-  removeItem,
-  addItem,
-} from "../redux/Cart";
+import { removeItem, addItem } from "../redux/Cart";
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
+
 import Slider from "../components/Slider";
-import Title from "../components/Title";
+
 import { useLocation } from "react-router-dom";
 import { ReactComponent as AddShoppingCart } from "../assets/add_shopping_cart.svg";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { useSelector, useDispatch } from "react-redux";
 import Favorite from "../components/Favorite";
 
@@ -200,11 +195,6 @@ function Article() {
           </div>
         </div>
       </div>
-
-      {/* <Title height={50} name={"Categories"} />
-      <Categories /> */}
-
-      {/* <Title height={50} name={"Bestsellers"} /> */}
     </Layout>
   );
 }

@@ -6,16 +6,17 @@ import Categories from "../components/Categories";
 import Slider from "../components/Slider";
 import Title from "../components/Title";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
 import Favorite from "../components/Favorite";
+import { allArticles } from "../api/articles";
 
 function Home() {
   const [products, setProducts] = useState([]);
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
-    let objetRecupere = JSON.parse(localStorage.getItem("akfRehoboth"));
+    let objetRecupere = JSON.parse(localStorage.getItem("akfRehobothContact"));
     if (objetRecupere) {
       setContact(objetRecupere);
     }
@@ -25,9 +26,7 @@ function Home() {
 
   const getArticles = async () => {
     try {
-      const { data } = await axios.get(
-        "https://backend-akf.onrender.com/articles/"
-      );
+      const { data } = await allArticles();
       console.log(data);
 
       const productsFiltered = data.filter(
@@ -37,32 +36,11 @@ function Home() {
     } catch (error) {}
   };
 
-  // const Item = (props) => {
-  //   return (
-  //     <div
-  //       style={{
-  //         height: 300,
-  //         width: 300,
-  //         margin: 10,
-  //         padding: 10,
-
-  //         borderRadius: 25,
-  //         backgroundColor: "white",
-  //         display: "flex",
-  //         justifyContent: "center",
-  //       }}
-  //       onClick={props.onClick}
-  //     >
-  //       {props.children}
-  //     </div>
-  //   );
-  // };
-
   const Item = ({ data }) => {
     return (
       <div
         style={{
-          height: 300,
+          height: 250,
           width: 200,
           margin: 10,
           padding: 10,
@@ -165,14 +143,6 @@ function Home() {
         <ul className="slider-list">
           {products.map((item) => (
             <Item onClick={handleClick} data={item} />
-            //   <img
-            //     src={item.picture[0]}
-            //     alt={`Blob ${1}`}
-            //     height={"80%"}
-            //     width={"80%"}
-            //     style={{ borderRadius: 10, objectFit: "contain" }}
-            //   />
-            // </Item>
           ))}
         </ul>
       </Slider>

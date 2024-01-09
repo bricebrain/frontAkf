@@ -5,10 +5,10 @@ import { ReactComponent as Error } from "../assets/error.svg";
 
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import Layout from "../components/Layout";
 import Favorite from "../components/Favorite";
+import { allArticles } from "../api/articles";
 
 const Products = () => {
   let { state } = useLocation();
@@ -96,9 +96,7 @@ const Products = () => {
   const getArticles = async () => {
     let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
     try {
-      const { data } = await axios.get(
-        "https://backend-akf.onrender.com/articles/"
-      );
+      const { data } = await allArticles();
 
       if (tabFavoris) {
         const productsFiltered = data.filter((item) =>

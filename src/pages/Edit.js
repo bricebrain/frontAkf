@@ -1,25 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
-import Menu from "../assets/menu.svg";
-import Search from "../assets/search.svg";
-import Cart from "../assets/shopping_bag.svg";
-import Person from "../assets/person.svg";
-import Favorite from "../assets/favorite.svg";
-import Location from "../assets/location.svg";
 
 import { ReactComponent as Cancel } from "../assets/cancel.svg";
-import { ReactComponent as Save } from "../assets/save.svg";
 
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
 import { ReactComponent as Add_Photo } from "../assets/add_photo.svg";
 import Slider from "../components/Slider";
-import Title from "../components/Title";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Dropzone from "react-dropzone";
 import Validation from "../components/Validation";
+import { deleteArticle, updateArticle, uploadFile } from "../api/articles";
 
 function Edit() {
   let { state } = useLocation();
@@ -125,24 +116,12 @@ function Edit() {
           formData.append(`files`, file);
         });
 
-        response = await axios.post(
-          "https://backend-akf.onrender.com/uploadfilesMulti/",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
+        response = await uploadFile(formData);
 
         newInfo["picture"] = [...newInfo["picture"], ...response.data.urls];
       }
 
-      const responseDB = await axios.put(
-        `https://backend-akf.onrender.com/updateArticle/${info.id}`,
-        newInfo
-      );
+      await updateArticle(info.id, newInfo);
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
@@ -152,10 +131,7 @@ function Edit() {
 
   const Remove = async (e) => {
     try {
-      const responseDB = await axios.put(
-        `https://backend-akf.onrender.com/delete/${info.id}`,
-        { status: "DEACTIVATED" }
-      );
+      await deleteArticle(info.id);
     } catch (error) {
       console.error("desactivation:", error);
     } finally {

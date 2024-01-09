@@ -2,12 +2,10 @@
 import "../App.css";
 
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
 import SliderVertical from "../components/SliderVertical";
-import Title from "../components/Title";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { allCommande, updateTheCommande } from "../api/commandes";
 
 function History() {
   let { state } = useLocation();
@@ -21,10 +19,7 @@ function History() {
 
   const getCommandes = async () => {
     try {
-      const { data } = await axios.get(
-        "https://backend-akf.onrender.com/commandes/"
-      );
-
+      const { data } = await allCommande();
       setCommandesDefault(data);
       setCommandes(data);
       let total = 0;
@@ -41,9 +36,7 @@ function History() {
 
   const updateCommande = async (id, status) => {
     try {
-      await axios.put(
-        `https://backend-akf.onrender.com/updateCommande/${id}?status=${status}`
-      );
+      await updateTheCommande(id, status);
     } catch (error) {
       console.log(error);
     } finally {

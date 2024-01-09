@@ -13,7 +13,7 @@ import './index.css';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Admin from './pages/Admin';
-import Add from './pages/Add';
+
 import Favoris from './pages/Favoris';
 import Contact from './pages/Contact';
 
@@ -62,11 +62,7 @@ const router = createBrowserRouter([
     path: "/edition",
     element: <Edit/>,
   },
-  {
-    
-    path: "/add",
-    element: <Add/>,
-  },
+
   {
     
     path: "/Ajouter",

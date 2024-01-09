@@ -1,41 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
-import emailjs from "emailjs-com";
 import SliderVertical from "../components/SliderVertical";
-import Title from "../components/Title";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReactComponent as EmptyCart } from "../assets/emptyCart.svg";
-import axios from "axios";
+
 import {
   incrementQuantity,
   decrementQuantity,
   removeItem,
-  addItem,
-  resetCart,
 } from "../redux/Cart";
 import Layout from "../components/Layout";
-
-// const sendEmail = () => {
-//   emailjs.send(
-//     'service_ylvxaws',
-//     'template_gr2epar', // Utilisez l'ID du modèle que vous avez créé sur EmailJS
-//     {
-//       to_email: 'akfrehoboth@gmail.com',
-//       message: text,
-//       from_name:name,
-//       email_contact:email
-//     },
-//     XfH5RhNQyQgdapFUp'
-//   )
-//   .then((response) => {
-//     console.log('Email sent:', response);
-//     setDone(true)
-//   })
-//   .catch((error) => {
-//     console.error('Error sending email:', error);
-//   });
 
 function CheckOut() {
   let { state } = useLocation();

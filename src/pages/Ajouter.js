@@ -5,15 +5,15 @@ import { ReactComponent as Cancel } from "../assets/cancel.svg";
 import { ReactComponent as Save } from "../assets/save.svg";
 
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
+
 import { ReactComponent as Add_Photo } from "../assets/add_photo.svg";
 import Slider from "../components/Slider";
-import Title from "../components/Title";
-import { useLocation } from "react-router-dom";
+
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import Dropzone from "react-dropzone";
 import Validation from "../components/Validation";
+import { addArticle, uploadFile } from "../api/articles";
 
 function Article() {
   // let { state } = useLocation();
@@ -86,30 +86,18 @@ function Article() {
         formData.append(`files`, file);
       });
 
-      const response = await axios.post(
-        "https://backend-akf.onrender.com/uploadfilesMulti/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await uploadFile(formData);
 
       const newInfo = { ...info };
       newInfo["picture"] = response.data.urls;
 
-      const responseDB = await axios.post(
-        "https://backend-akf.onrender.com/addArticles/",
-        newInfo
-      );
+      const responseDB = await addArticle(newInfo);
 
       console.log({ response, responseDB });
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
-      setEnd({ type: "add" });
+      // setEnd({ type: "add" });
     }
   };
 
