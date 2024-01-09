@@ -21,10 +21,22 @@ code {
 }
 
 * Style du conteneur principal */
+
 .layout {
   display: flex;
+  width: 100vw;
+  background-color: #F9F9F9;
   flex-direction: column;
-  height: 100svh; /* 100% de la hauteur de la vue (viewport) */
+  height: 100vh; /* 100% de la hauteur de la vue (viewport) */
+  height: -webkit-fill-avalaibe;
+
+
+
+
+ 
+  
+  
+
 }
 
 /* Style du header et du footer */

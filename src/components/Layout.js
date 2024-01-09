@@ -21,13 +21,14 @@ const Layout = ({
   console.log(withoutHeader, withoutFooter);
   return (
     <div
-      style={{
-        width: "100vw",
-        height: "100svh",
-        backgroundColor: "#F9F9F9",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      className="layout"
+      // style={{
+      //   width: "100vw",
+      //   height: "100vh",
+      //   backgroundColor: "#F9F9F9",
+      //   display: "flex",
+      //   flexDirection: "column",
+      // }}
     >
       {withoutHeader ? null : (
         <Header
