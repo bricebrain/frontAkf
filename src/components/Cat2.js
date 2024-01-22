@@ -23,18 +23,6 @@ import p9 from "../assets/a-smiling--magic-exwa.jpeg";
 // "BEAUTY_AND_ACCESORIES"
 
 const images = [
-  // {
-  //   url: "https://www.globalbrandsmagazine.com/wp-content/uploads/2023/02/Bag.jpg",
-  //   title: "Sacs",
-  //   width: "100%",
-  //   value: "BAG",
-  // },
-  // {
-  //   url: "https://media.istockphoto.com/id/1321448269/fr/photo/collection-de-v%C3%AAtements-f%C3%A9minins-%C3%A0-la-mode-sur-rack-%C3%A0-lint%C3%A9rieur-gros-plan-et-espace-pour-le.jpg?s=2048x2048&w=is&k=20&c=BU6A9bxS9NwUhBkyo3BeOfiPe0UWytet1Ew2sVbFvIM=",
-  //   title: "Prêt à porter",
-  //   width: "30%",
-  //   value: "CLOTHING",
-  // },
   {
     url: "https://img.freepik.com/free-photo/macadamia-body-lotion-skin-cream_1150-42810.jpg?w=2000&t=st=1705180443~exp=1705181043~hmac=ffa133dbe9df6f881b73d36d3e5f10a255285a44e4a1d979fbe29db2b11e02d2",
     title: "Soins de corps",
