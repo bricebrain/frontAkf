@@ -20,14 +20,21 @@ import Contact from './pages/Contact';
 
 
 import Article from './pages/Article';
-import Ajouter from './pages/Ajouter';
-import History from './pages/History';
-import Edit from './pages/Edit';
-import EditList from './pages/EditList';
+
+
+
 import CheckOut from './pages/CheckOut';
-import Form from './pages/Form';
 
 import Details from './pages/Details';
+import AddOrEdit from './pages/AddOrEdit';
+import Connexion from './pages/SignIn';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Commande from './pages/Commande';
+import Stock from './pages/Stock';
+import Analyse from './pages/Analyse';
+
+
 
 
 
@@ -57,16 +64,32 @@ const router = createBrowserRouter([
     path: "/admin",
     element: <Admin/>,
   },
+
   {
     
-    path: "/edition",
-    element: <Edit/>,
+    path: "/signin",
+    element: <SignIn/>,
+  },
+  {
+    
+    path: "/commande",
+    element: <Commande/>,
+  },
+  {
+    
+    path: "/signup",
+    element: <SignUp/>,
+  },
+  {
+    
+    path: "/stock",
+    element: <Stock/>,
   },
 
   {
     
-    path: "/Ajouter",
-    element: <Ajouter/>
+    path: "/AddOrEdit",
+    element: <AddOrEdit/>
   },
   {
     
@@ -74,31 +97,13 @@ const router = createBrowserRouter([
     element: <Article/>,
   },
 
-  {
-    
-    path: "/Edit",
-    element: <Edit/>,
-  },
-  {
-    
-    path: "/history",
-    element: <History/>,
-  },
-  {
-    
-    path: "/EditList",
-    element: <EditList/>,
-  },
+  
   {
     
     path: "/CheckOut",
     element: <CheckOut/>,
   },
-  {
-    
-    path: "/Form",
-    element: <Form/>,
-  },
+
   {
     
     path: "/Contact",
@@ -109,6 +114,11 @@ const router = createBrowserRouter([
     
     path: "/Details",
     element: <Details/>,
+  },
+  {
+    
+    path: "/analyse",
+    element: <Analyse/>,
   },
   
 ]);

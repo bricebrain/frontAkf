@@ -1,20 +1,43 @@
-/* eslint-disable jsx-a11y/alt-text */
-import "../App.css";
-import { removeItem, addItem } from "../redux/Cart";
-import Layout from "../components/Layout";
-
-import Slider from "../components/Slider";
-
+import * as React from "react";
 import { useLocation } from "react-router-dom";
-import { ReactComponent as AddShoppingCart } from "../assets/add_shopping_cart.svg";
-import { useEffect, useState } from "react";
 
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
+import Layout from "../components/Layout";
+import Slider from "../components/Slider";
+import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/RemoveShoppingCart";
+import SendIcon from "@mui/icons-material/AddShoppingCart";
+import { removeItem, addItem } from "../redux/Cart";
 import { useSelector, useDispatch } from "react-redux";
-import Favorite from "../components/Favorite";
+import { useEffect, useState } from "react";
+import {
+  connexion,
+  deconnexion,
+  addOneItemFavoris,
+  removeOneItemFavoris,
+  updateProfil,
+  deleteProfil,
+  updateFavoris,
+} from "../redux/User";
+import { updateClientFav } from "../api/user";
 
-function Article() {
+export default function Article() {
   let { state } = useLocation();
-  let nbPicture = state.data.picture.length;
+  const [isFavorite, setIsFavorite] = useState(false);
+  const stateUser = useSelector((state) => state.user.value);
+
   const stateCart = useSelector((state) => state.cart.value);
   const dispatch = useDispatch();
   const [isAlreadyInCart, setIsAlreadyInCart] = useState(false);
@@ -27,10 +50,18 @@ function Article() {
       setIsAlreadyInCart(false);
     }
 
+    let isFav = false;
+    if (stateUser.favoris) {
+      isFav = stateUser.favoris.includes(state.data.id);
+    }
+
+    setIsFavorite(isFav);
+
     return () => {};
   }, []);
 
   useEffect(() => {
+    console.log({ stateCart });
     let findItem = stateCart.find((item) => item.id === state.data.id);
     if (findItem) {
       setIsAlreadyInCart(true);
@@ -41,162 +72,170 @@ function Article() {
     return () => {};
   }, [stateCart]);
 
-  const Item = (props) => {
-    return (
-      <div
-        // className="slider-item"
-        style={{
-          width: "90vw",
-          height: "50vh",
-          margin: 10,
+  const handleFavorite = async () => {
+    setIsFavorite((prevState) => {
+      if (!prevState == true) {
+        dispatch(addOneItemFavoris(state.data.id));
+        console.log(stateUser.favoris);
+      }
+      if (!prevState == false) {
+        dispatch(removeOneItemFavoris(state.data.id));
+        console.log(stateUser.favoris);
+      }
+      return !prevState;
+    });
 
-          padding: 10,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          borderRadius: 25,
-          backgroundColor: "white",
-        }}
-        onClick={props.onClick}
-      >
-        {props.children}
-      </div>
-    );
+    if (stateUser.id) {
+      let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
+      await updateClientFav(stateUser.id, tabFavoris);
+    }
   };
 
   return (
     <Layout>
-      <Slider>
-        <ul className="slider-list" style={{ margin: 10 }}>
-          {state.data.picture.map((picture, index) => (
-            <Item>
-              {nbPicture > 1 && (
-                <span
+      <Card sx={{ width: "100%" }}>
+        <CardHeader
+          // avatar={
+          //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          //     R
+          //   </Avatar>
+          // }
+          action={
+            <IconButton aria-label="settings" onClick={() => handleFavorite()}>
+              <FavoriteIcon sx={{ color: isFavorite ? "red" : "grey" }} />
+            </IconButton>
+          }
+          title={state.data.brand}
+          subheader={state.data.description}
+        />
+        {state.data.picture.lenght > 1 ? (
+          <CardMedia
+            component="img"
+            height={"20%"}
+            image={state.data.picture[0]}
+            alt="Paella dish"
+            style={{ objectFit: "contain" }}
+          />
+        ) : (
+          <Slider>
+            <ul className="slider-list">
+              {state.data.picture.map((item, index) => (
+                <div
                   style={{
-                    backgroundColor: "black",
-                    height: 20,
-                    color: "white",
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
-                    borderRadius: 10,
-                    padding: 10,
-                    opacity: 0.1,
+                    borderTop: "1px solid lightgrey",
+                    borderBottom: "1px solid lightgrey",
+                    width: "100vw",
                   }}
                 >
-                  {index + 1} / {nbPicture}
-                </span>
-              )}
+                  <Chip label={`${index + 1}/${state.data.picture.length}`} />
+                  <CardMedia
+                    title="ggg"
+                    component="img"
+                    height={400}
+                    width={"100%"}
+                    image={item}
+                    alt="Paella dish"
+                    style={{
+                      objectFit: "contain",
+                      margin: 20,
+                      width: 350,
 
-              <img
-                src={picture}
-                alt={`Blob ${1}`}
-                height={"100%"}
-                width={"80%"}
-                style={{
-                  borderRadius: 10,
-                  objectFit: "contain",
-                }}
-              />
-            </Item>
-          ))}
-        </ul>
-      </Slider>
+                      padding: 10,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  />
+                </div>
+              ))}
+            </ul>
+          </Slider>
+        )}
 
-      <div
-        style={{
-          width: "90%",
+        {/* <Slider>
+          <CardMedia
+            component="img"
+            height={400}
+            image={state.data.picture[0]}
+            alt="Paella dish"
+            style={{ objectFit: "contain" }}
+          />
+        </Slider> */}
 
-          padding: 20,
-          marginTop: 0,
-          margin: 20,
-
-          backgroundColor: "white",
-          borderRadius: 20,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              display: "flex",
-              borderBottom: "1px solid lightgrey",
-              marginBottom: 20,
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
+        <CardContent sx={{ display: "flex", justifyContent: "center" }}>
+          <Typography
+            variant="body2"
+            color="orange"
+            fontSize={"1.3rem"}
+            fontWeight={"bold"}
           >
-            <h1
-              style={{
-                paddingBottom: 5,
-                marginBottom: 2,
-              }}
-            >
-              {state.data.brand}
-            </h1>
-
-            <h1 style={{ fontSize: 20, color: "orange" }}>
-              {state.data.price.toLocaleString("fr-FR")} FCFA
-            </h1>
-          </div>
-          <p style={{ paddingLeft: 0, marginBottom: 20 }}>
-            {state.data.description}
-          </p>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Favorite />{" "}
-          </div>
-        </div>
-
-        <div
-          style={{
-            width: "90%",
-            height: 40,
-            padding: 10,
-            margin: 20,
-            marginBottom: 20,
-
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+            {state.data.price.toLocaleString("fr-FR")} FCFA
+          </Typography>
+        </CardContent>
+        <CardActions
+          sx={{ display: "flex", justifyContent: "center" }}
+          disableSpacing
         >
-          <div
-            onClick={() =>
-              isAlreadyInCart
-                ? dispatch(removeItem(state.data))
-                : dispatch(addItem(state.data))
-            }
-            style={{
-              border: "1px solid white",
-              height: 50,
-              padding: 20,
-              margin: 20,
-              borderRadius: 30,
-              backgroundColor: "lightpink",
-              color: "white",
-              display: "flex",
-              justifyContent: isAlreadyInCart ? "center" : "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span style={{ paddingRight: 10 }}>
-              {isAlreadyInCart ? "Retirer du panier" : "Ajoutez au Panier"}
-            </span>
-            {!isAlreadyInCart && <AddShoppingCart fill="white" />}
-          </div>
-        </div>
-      </div>
+          {isAlreadyInCart ? (
+            <Button
+              variant="outlined"
+              startIcon={<DeleteIcon />}
+              onClick={() => dispatch(removeItem(state.data))}
+            >
+              Retirez du panier
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              endIcon={<SendIcon />}
+              onClick={() => dispatch(addItem(state.data))}
+            >
+              Ajoutez au panier
+            </Button>
+          )}
+        </CardActions>
+      </Card>
     </Layout>
   );
 }
 
-export default Article;
+// const ItemBar = ({ item, xl }) => {
+//   const [isFavorite, setIsFavorite] = useState(false);
+
+//   const stateUser = useSelector((state) => state.user.value);
+//   console.log(stateUser);
+//   const dispatch = useDispatch();
+
+//   useEffect(() => {
+//     // const favoristab = getFavorite();
+//     // console.log({ favoristab });
+//     let isFav = false;
+//     if (stateUser.favoris) {
+//       isFav = stateUser.favoris.includes(item.id);
+//     }
+
+//     setIsFavorite(isFav);
+
+//     return () => {};
+//   }, []);
+
+//   const handleFavorite = async () => {
+//     setIsFavorite((prevState) => {
+//       if (!prevState == true) {
+//         dispatch(addOneItemFavoris(item.id));
+//         console.log(stateUser.favoris);
+//       }
+//       if (!prevState == false) {
+//         dispatch(removeOneItemFavoris(item.id));
+//         console.log(stateUser.favoris);
+//       }
+//       return !prevState;
+//     });
+
+//     if (stateUser.id) {
+//       let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
+//       await updateClientFav(stateUser.id, tabFavoris);
+//     }
+//   };

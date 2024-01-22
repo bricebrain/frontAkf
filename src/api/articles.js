@@ -3,6 +3,9 @@ import { urlApi } from "./config";
 
 export const allArticles = async () => await axios.get(`${urlApi}/articles/`);
 
+export const stockArticles = async () =>
+  await axios.get(`${urlApi}/stockArticles/`);
+
 export const addArticle = async (newInfo) =>
   await axios.post(`${urlApi}/addArticles/`, newInfo);
 

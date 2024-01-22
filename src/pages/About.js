@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 import Layout from "../components/Layout";
 import MapContainer from "../components/Map";
-import Banner from "../components/Banner";
 
 function CheckOut() {
   useEffect(() => {
@@ -16,8 +15,9 @@ function CheckOut() {
       <div
         style={{
           width: "100%",
-          height: "80%",
+          height: "100%",
 
+          padding: 10,
           marginBottom: 10,
           display: "flex",
           flexDirection: "column",
@@ -25,10 +25,9 @@ function CheckOut() {
           alignItems: "center",
         }}
       >
-        <Banner />
-        <h1 style={{ fontSize: 20, marginTop: 10 }}> 3 Allée du Bois Percé</h1>
-        <h1 style={{ fontSize: 20, marginTop: 10 }}> Crocodile Island</h1>
-        <h1 style={{ fontSize: 20, marginTop: 10 }}> Tel : 091919191</h1>
+        <h1 style={{ fontSize: 20, marginTop: 20 }}> 3 Allée du Bois Percé</h1>
+        <h1 style={{ fontSize: 20, marginTop: 20 }}> Crocodile Island</h1>
+        <h1 style={{ fontSize: 20, marginTop: 20 }}> Tel : 091919191</h1>
         <MapContainer />
       </div>
     </Layout>

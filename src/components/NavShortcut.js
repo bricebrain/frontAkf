@@ -2,13 +2,14 @@ import { NavLink } from "react-router-dom";
 
 import React from "react";
 
-const NavShortcut = ({ Icon, title, link }) => {
+const NavShortcut = ({ Icon, title, link, state }) => {
   const path = window.location.pathname;
   const isActive = path == link;
 
   return (
     <NavLink
       to={link}
+      state={state}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -34,14 +35,14 @@ const NavShortcut = ({ Icon, title, link }) => {
         {Icon(isActive)}
         <span
           style={{
-            fontSize: isActive ? 22 : 18,
+            fontSize: isActive ? "0.875rem" : "0.875rem",
             width: "50%",
             height: "30%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            color: isActive ? "green" : "grey",
+            color: isActive ? "#1976d2" : "grey",
           }}
         >
           {title}

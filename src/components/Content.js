@@ -1,11 +1,11 @@
 import React from "react";
 
-function Content({ children }) {
+function Content({ children, height }) {
   return (
     <div
       style={{
         width: "100vw",
-        height: "90%",
+        height: height ?? "90%",
         overflowY: "auto",
         flex: 1,
       }}

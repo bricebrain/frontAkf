@@ -1,25 +1,27 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "../App.css";
-import Menu from "../assets/menu.svg";
 import Layout from "../components/Layout";
-import Categories from "../components/Categories";
 import Slider from "../components/Slider";
-import Title from "../components/Title";
 import { useEffect, useState } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Favorite from "../components/Favorite";
 import { allArticles } from "../api/articles";
 
+import List from "../components/List";
+import Cat from "../components/Cat";
+import Cat2 from "../components/Cat2";
+import { updateFavoris } from "../redux/User";
+import TitlebarImageList from "../components/ImageList";
+
 function Home() {
   const [products, setProducts] = useState([]);
-  const [contact, setContact] = useState(null);
+  const stateUser = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
+  console.log({ stateUser });
   useEffect(() => {
-    let objetRecupere = JSON.parse(localStorage.getItem("akfRehobothContact"));
-    if (objetRecupere) {
-      setContact(objetRecupere);
-    }
+    getFavorite();
     getArticles();
     return () => {};
   }, []);
@@ -27,7 +29,6 @@ function Home() {
   const getArticles = async () => {
     try {
       const { data } = await allArticles();
-      console.log(data);
 
       const productsFiltered = data.filter(
         (item) => item.isBestseller === true
@@ -36,116 +37,90 @@ function Home() {
     } catch (error) {}
   };
 
-  const Item = ({ data }) => {
+  const getFavorite = async () => {
+    let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
+    if (tabFavoris && tabFavoris.length > 0) {
+      dispatch(updateFavoris(tabFavoris));
+    }
+  };
+
+  const Block = ({ children, height, type, value }) => {
     return (
       <div
         style={{
-          height: 250,
-          width: 200,
-          margin: 10,
-          padding: 10,
-
-          borderRadius: 25,
-          backgroundColor: "white",
-
-          // flexDirection: "column",
-          // alignItems: "center",
+          width: "100%",
+          height: height ?? 100,
+          border: "1px solid white",
+          backgroundColor: "grey",
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: 20,
+          fontWeight: "bold",
         }}
       >
-        <Link to="/Article" state={{ data }}>
-          <div
-            style={{
-              height: "60%",
-              width: "100%",
-              objectFit: "contain",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
+        {children}
+        {type && (
+          <>
+            {" "}
+            <div
               style={{
-                objectFit: "contain",
-                display: "flex",
+                fontSize: 18,
+                fontWeight: "bold",
               }}
-              src={data?.picture && data?.picture[0]}
-            ></img>
-          </div>
-        </Link>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-
-            flexDirection: "column",
-            borderTop: "1px solid lightgrey",
-            padding: 0,
-            margin: 0,
-            height: "40%",
-          }}
-        >
-          <span
-            style={{
-              padding: 0,
-              margin: 0,
-            }}
-          >
-            {data?.brand}
-          </span>
-
-          <span
-            style={{
-              padding: 0,
-              margin: 0,
-              fontSize: 12,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {data?.description}
-          </span>
-          <span
-            style={{
-              padding: 0,
-              margin: 0,
-              textAlign: "right",
-              color: "orange",
-            }}
-          >
-            {data?.price.toLocaleString("fr-FR")} FCFA
-          </span>
-          <Favorite id={data.id} />
-        </div>
+            >
+              {type}{" "}
+            </div>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
+            >
+              Vendu(s): {value}
+            </div>
+          </>
+        )}
       </div>
     );
   };
 
-  const handleClick = () => {};
+  const Container = ({ children, height }) => {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: height ?? 100,
+          display: "flex",
+          flex: 1,
+        }}
+      >
+        {children}
+      </div>
+    );
+  };
 
   return (
     <Layout isHome={true}>
-      <div style={{ marginTop: 30 }}></div>
-      <Title
-        header={true}
-        height={100}
-        name={contact ? `Akwaba ${contact.prenom}` : null}
-        subname={
-          "Chic et charme à chaque pas : Découvrez votre style chez nous ! Sacs, vêtements, beauté : L'exclusivité féminine, notre spécialité."
-        }
-      />
+      <Container height={50}>
+        <Block height={50}>CATEGORIES</Block>
+      </Container>
+      <Cat />
+      <Cat2 />
 
-      <Title height={50} name={"Categories"} marginBottom={5} />
-      <Categories />
-
-      <Title height={50} name={"Meilleurs ventes"} marginBottom={0} />
-      <Slider>
+      <Container height={50}>
+        <Block height={50}>SUGGESTIONS</Block>
+      </Container>
+      {/* <Slider>
         <ul className="slider-list">
           {products.map((item) => (
-            <Item onClick={handleClick} data={item} />
+            <List item={item} />
           ))}
         </ul>
-      </Slider>
+      </Slider> */}
+      <TitlebarImageList products={products} />
     </Layout>
   );
 }

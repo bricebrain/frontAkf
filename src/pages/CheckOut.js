@@ -5,19 +5,37 @@ import SliderVertical from "../components/SliderVertical";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReactComponent as EmptyCart } from "../assets/emptyCart.svg";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SendIcon from "@mui/icons-material/Send";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBackIcon from "@mui/icons-material/NavigateBefore";
+import CircularProgress from "@mui/material/CircularProgress";
+import emailjs from "emailjs-com";
+
+import { green } from "@mui/material/colors";
 
 import {
   incrementQuantity,
   decrementQuantity,
   removeItem,
+  resetCart,
 } from "../redux/Cart";
 import Layout from "../components/Layout";
+import ListCommand from "../components/ListCommand";
+import StepperUI from "../components/Stepper";
+import SignInComponent from "../components/signInComponent";
+import PreviewComponent from "../components/previewComponent";
+import Validation from "../components/Validation";
+import { addCommande } from "../api/commandes";
 
 function CheckOut() {
   let { state } = useLocation();
   const stateCart = useSelector((state) => state.cart.value);
+  const stateUser = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const [totalCommande, setTotalCommande] = useState(0);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     let montant = 0;
@@ -43,165 +61,195 @@ function CheckOut() {
     return () => {};
   }, [stateCart]);
 
-  const Item = ({ data }) => {
-    return (
-      <div
-        // className="slider-item"
-        style={{
-          height: 200,
-          width: "100%",
-          margin: 10,
-          padding: 20,
-          display: "flex",
-          borderRadius: 25,
-          backgroundColor: "white",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <img
-          style={{
-            width: "40%",
-            height: "90%",
-            objectFit: "contain",
-            borderRadius: 20,
-            backgroundColor: "#F9F9F9",
-            display: "flex",
-            alignItems: "center",
-          }}
-          src={data?.picture && data?.picture[0]}
-        ></img>
+  const Gestion = ({ stateCart, stateUser }) => {
+    if (step === 0) {
+      return <ListCommand products={stateCart} />;
+    }
+    if (step == 1) {
+      if (stateUser && stateUser.id) {
+        return <PreviewComponent userData={stateUser} />;
+      } else {
+        return <SignInComponent hide />;
+      }
+    }
+    if (step == 2) {
+      command();
 
+      notifications();
+      setStep((prev) => prev + 1);
+
+      return (
         <div
           style={{
+            height: "70%",
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <h1>{data.brand}</h1>
-          <h2>{data.description}</h2>
-          <h2>{(data.price * data.quantity).toLocaleString("fr-FR")} FCFA </h2>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <button
-            onClick={() => dispatch(incrementQuantity(data))}
-            style={{
-              width: 30,
-              height: 30,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+          <CircularProgress
+            size={68}
+            sx={{
+              color: green[500],
             }}
-          >
-            {" "}
-            +
-          </button>
+          />
+        </div>
+      );
+    }
+    if (step == 3) {
+      return (
+        <Validation
+          func={() => dispatch(resetCart())}
+          height="70%"
+          to="/"
+          message1={"Commande validée"}
+          message2={
+            "Nous vous cacteroons  dans moins de 30 min pour le paiement et la livraison"
+          }
+        />
+      );
+    }
+  };
+  const transfoDate = (info) => {
+    const dateObj = new Date(new Date(info));
+    let options = {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZoneName: "short",
+    };
+    let dateFormatee = dateObj.toLocaleString("fr-FR", options);
+    return dateFormatee;
+  };
+
+  const command = async () => {
+    try {
+      let request = {
+        clientId: stateUser.id,
+        status: "EN ATTENTE",
+        cart: stateCart,
+        total: totalCommande,
+      };
+      await addCommande(request);
+    } catch (error) {}
+  };
+
+  const ManageBtn = () => {
+    if (step == 0) {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <div
             style={{
-              width: 30,
-              height: 30,
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            {" "}
-            {data.quantity}
+            <h1> TOTAL COMMANDE</h1>
+            <h1> {totalCommande.toLocaleString("fr-FR")} FCFA</h1>
           </div>
-          <button
-            onClick={() => {
-              if (data.quantity === 1) {
-                dispatch(removeItem(data));
-              } else {
-                dispatch(decrementQuantity(data));
-              }
-            }}
-            style={{
-              width: 30,
-              height: 30,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+
+          <Button
+            variant="contained"
+            onClick={() => setStep((prevState) => prevState + 1)}
+            endIcon={<NavigateNextIcon />}
           >
-            {" "}
-            -
-          </button>
+            Suivant
+          </Button>
         </div>
-      </div>
-    );
+      );
+    }
+    if (step == 1) {
+      if (stateUser && stateUser.id) {
+        return (
+          <>
+            <Button
+              variant="contained"
+              onClick={() => setStep((prevState) => prevState - 1)}
+              startIcon={<NavigateBackIcon />}
+            >
+              Retour
+            </Button>
+            <div style={{ width: 20 }}> </div>
+
+            <Button
+              variant="contained"
+              onClick={() => setStep((prevState) => prevState + 1)}
+              endIcon={<NavigateNextIcon />}
+            >
+              Suivant
+            </Button>
+          </>
+        );
+      }
+
+      return (
+        <Button
+          variant="contained"
+          onClick={() => setStep((prevState) => prevState - 1)}
+          startIcon={<NavigateBackIcon />}
+        >
+          Retour
+        </Button>
+      );
+    }
+  };
+
+  const notifications = () => {
+    const event = Date.now();
+    // const e = new Date(event);
+    emailjs
+      .send(
+        "service_ylvxaws",
+        "template_tu19im9", // Utilisez l'ID du modèle que vous avez créé sur EmailJS
+        {
+          to_email: "akfrehoboth@gmail.com",
+          civility: stateUser.gender,
+          lastname: `${stateUser.lastname} ${stateUser.firstname}`,
+          total: `${totalCommande} FCFA`,
+          created: transfoDate(event),
+        },
+        "XfH5RhNQyQgdapFUp"
+      )
+      .then((response) => {
+        console.log("Email sent:", response);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
   };
 
   return stateCart && stateCart.length > 0 ? (
     <Layout headerName={"Panier"}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: 26,
-            color: "#0D0E78",
-          }}
-        >
-          Total Commande
-        </h1>
-        <h1
-          style={{
-            fontSize: 20,
-            color: "orange",
-          }}
-        >
-          {totalCommande.toLocaleString("fr-FR")} FCFA
-        </h1>
+      <StepperUI step={step} />
+
+      {/* <ListCommand products={stateCart} /> */}
+      <Gestion stateCart={stateCart} stateUser={stateUser} />
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {/* <Link to="/signin"> */}
+        <ManageBtn />
+
+        {/* </Link> */}
       </div>
-
-      <SliderVertical>
-        <ul className="sliderVertical-list">
-          {stateCart && stateCart.map((item) => <Item data={item} />)}
-        </ul>
-      </SliderVertical>
-
-      <Link
-        to="/Form"
-        state={{ totalCommande }}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          textDecoration: "none",
-        }}
-      >
-        <button
-          style={{
-            backgroundColor: "green",
-            border: "none",
-            color: "white",
-            padding: 5,
-            borderRadius: 5,
-          }}
-          onClick={() => console.log(stateCart)}
-        >
-          Valider panier
-        </button>
-      </Link>
     </Layout>
   ) : (
     <Layout>
       <div
         style={{
           width: "100%",
-          height: "100%",
+          height: "80%",
 
           padding: 10,
           marginBottom: 10,
