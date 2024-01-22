@@ -6,7 +6,6 @@ const Favorite = ({ id }) => {
   const [isFavoris, setFavoris] = useState(false);
   useEffect(() => {
     let tabFavoris = JSON.parse(localStorage.getItem("akfRehobothFav"));
-    console.log({ tabFavoris });
     if (tabFavoris) {
       let isfav = tabFavoris.includes(id);
       setFavoris(isfav);

@@ -148,7 +148,7 @@ export default function SignInComponent({ redirectValue }) {
           required
           id="outlined-number"
           label="Mot de passe"
-          type="password"
+          //   type="password"
           value={info.price}
           defaultValue={info.price}
           onChange={(e) => {
