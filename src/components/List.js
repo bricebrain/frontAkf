@@ -20,7 +20,7 @@ export default function List({ item }) {
       <Link to="/Article" state={{ data: item }}>
         <img
           srcSet={`${item.picture[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
-          src={item.picture[0]}
+          src={item.picture[0].replace("http://", "https://")}
           alt={item.brand}
           loading="lazy"
           style={{
