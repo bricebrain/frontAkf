@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import Layout from "../components/Layout";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import { tryToConnect } from "../api/user";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,6 +43,7 @@ export default function SignInComponent({ redirectValue }) {
   });
   const [result, setResult] = useState(resultDefault);
   const [useSignUp, setUseSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     return () => {};
@@ -62,6 +63,7 @@ export default function SignInComponent({ redirectValue }) {
   };
 
   const submit = async () => {
+    setIsLoading(true);
     try {
       const { data } = await tryToConnect(info);
       dispatch(connexion(data));
@@ -84,6 +86,8 @@ export default function SignInComponent({ redirectValue }) {
           errorPassword: true,
         });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -123,6 +127,7 @@ export default function SignInComponent({ redirectValue }) {
         <TextField
           error={result.errorIdentifiant}
           helperText={result.detailsErrorIdentifiant}
+          disabled={isLoading}
           id="outlined-number"
           label="Email"
           required
@@ -143,6 +148,7 @@ export default function SignInComponent({ redirectValue }) {
         />
         <Space height={20} />
         <TextField
+          disabled={isLoading}
           error={result.errorPassword}
           helperText={result.detailsErrorPassword}
           required
@@ -164,8 +170,8 @@ export default function SignInComponent({ redirectValue }) {
             marginBottom: 40,
           }}
         />
+        {isLoading && <CircularProgress />}
       </div>
-
       <Stack direction="row" spacing={2} justifyContent={"center"}>
         {state && state.data && (
           <Button variant="outlined" color="error">
@@ -174,7 +180,7 @@ export default function SignInComponent({ redirectValue }) {
         )}
 
         <Button
-          disabled={!isValidate(info)}
+          disabled={!isValidate(info) || isLoading}
           variant="contained"
           color="success"
           onClick={() => submit()}

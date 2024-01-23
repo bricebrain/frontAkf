@@ -61,7 +61,7 @@ function Analyse() {
         .filter((item) => objKeys.includes(`${item.id}`))
         .map((item) => {
           item["nombre_vendu"] = objValue[`${item.id}`];
-
+          console.log(item);
           return item;
         });
 
